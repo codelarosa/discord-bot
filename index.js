@@ -10,12 +10,8 @@ client.on('ready', () => {
 
 client.login(process.env.CLIENT_TOKEN);
 
-async function getMeme(){
-  const res = await axios.get('https://memeapi.pythonanywhere.com/');
-  return res.data.memes[0].url;
-}
-
 client.on('message', async msg => {
+
     switch (msg.content) {
 
         case 'bark':
@@ -24,10 +20,21 @@ client.on('message', async msg => {
 
         case 'bark meme':
             msg.channel.send('Woof!');
+            const memeimg = await getMeme();
+            msg.channel.send(memeimg);
+            break;
 
+        case 'bark github':
+            msg.reply('https://github.com/codelarosa/discord-bot.git')
+            break;
     }
-}
+});
 
+
+async function getMeme(){
+    const res = await axios.get('https://memeapi.pythonanywhere.com/');
+    return res.data.memes[0].url;
+}
 /*
 client.on('message', msg => {
     if (msg.content === 'bark') {
